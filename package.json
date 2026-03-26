@@ -1,0 +1,13 @@
+{
+  "name": "@martin/copilot-skills",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "bin": {
+    "install-copilot-skills": "bin/install-skills.mjs"
+  },
+  "scripts": {
+    "lint": "echo \"no lint configured\"",
+    "test": "node bin/install-skills.mjs --dry-run 2>/dev/null || true"
+  }
+}
