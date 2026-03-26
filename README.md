@@ -1,4 +1,4 @@
-# @martin/copilot-skills
+# @mvk/copilot-skills
 
 Source-of-truth repository for shared GitHub Copilot skills distributed as a Git dependency.
 
