@@ -6,6 +6,7 @@
 >
 > - `.github/copilot-instructions.md` (this file): core philosophy + cross-cutting constraints.
 > - `.github/skills/`: detailed stack-specific rules:
+>   - `react-base.md`
 >   - `nextjs-base.md`
 >   - `rust-base.md`
 >   - `rust-backend.md`
@@ -49,15 +50,24 @@ During execution, if a design choice materially affects DX, performance, or safe
   - Sanitize untrusted input before HTML/SQL/shell usage.
   - Never log secrets or full tokens.
 
-## Next.js / TypeScript (Summary)
+## React / TypeScript (Summary)
 
-Authoritative details: `.github/skills/nextjs-base.md`
+Authoritative details: `.github/skills/react-base.md`
 
 - Components: one component per file, `export const Component: FC<Props> =`, named exports only.
 - Data: TanStack Query for async fetching and mutation invalidation.
 - State: Zustand + immer for shared state; avoid monolithic stores.
 - Forms: React Hook Form v7 + Zod v4; keep form shapes UI-centric and map via DTO mappers.
 - Event handlers: avoid inline anonymous listeners in JSX; use named handlers.
+- Icons: use icon libraries (`react-icons`/similar); do not handcraft SVG icons unless explicitly requested.
+
+## Next.js (Summary)
+
+Authoritative details: `.github/skills/nextjs-base.md`
+
+- Use App Router conventions and keep route/server boundaries explicit.
+- Keep server-only logic out of client bundles.
+- Use package-local layout conventions in `apps/web/src/` for `app/`, `components/`, `lib/`, `stores/`, and `server/`.
 
 ## Rust (Summary)
 
@@ -98,6 +108,7 @@ Authoritative details: `.github/skills/testing.md`
 
 - Branch naming: `<type>/<ticket-number>` where type is one of `refactor|feat|test|chore|fix`.
 - Commit format: `<type>: <ticket-number> <description>` (Conventional Commit semantics).
+- Use pre-commit hooks that run `lint`, `test`, and `build` before commit.
 - Rebase on `main` before PR; do not merge `main` into feature branches.
 - Keep PRs focused and reasonably small; split large changes when needed.
 

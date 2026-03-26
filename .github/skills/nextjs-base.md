@@ -1,8 +1,9 @@
-# Next.js / Frontend Skill
+# Next.js Skill
 
 ## Scope
 
-These instructions apply to all Next.js / React / TypeScript packages in this monorepo, including shared component libraries and app surfaces.
+These instructions apply to Next.js app packages in this monorepo.
+For shared React + TypeScript UI conventions, use `.github/skills/react-base.md`.
 
 ## Locked Versions
 
@@ -12,15 +13,15 @@ Example:
 | Package | Version |
 |---|---|
 | `next` | 16.1.6 |
-| `react` / `react-dom` | 19.2.4 |
-| `@tanstack/react-query` | 5.90.21 |
-| `zustand` | 5.0.11 |
-| `zod` | 4.3.6 |
 | `prisma` / `@prisma/client` | 7.4.2 |
-| `framer-motion` | 12.38.0 |
-| `typescript` | 5.9.3 |
+| `react` / `react-dom` | See `react-base.md` |
+| `@tanstack/react-query` | See `react-base.md` |
+| `zustand` | See `react-base.md` |
+| `zod` | See `react-base.md` |
+| `framer-motion` | See `react-base.md` |
+| `typescript` | See `react-base.md` |
 
-## Layout & Conventions
+## Layout & App Router Conventions
 
 - Actual folder structure in `apps/web/src/`:
     - `app/` — Next.js App Router pages and API routes.
@@ -32,22 +33,13 @@ Example:
 - **Max 300 lines per file** for `.ts` and `.tsx` source files (enforced by `scripts/check-file-lines.sh`). When a file approaches the limit, split by extracting hooks, service helpers, or sub-components into their own files.
 - **Always use braces for `if` blocks**, even for single-line branches.
 
-## Components
+## Server / Client Boundaries
 
-- One component per file. Use `export const Component: FC<Props> =` pattern.
-- All exports are **named exports** — never use `export default` or `export *`.
-- Component files live in `components/<feature>/`. When a single feature directory becomes large, create a subfolder (e.g., `components/dashboard/geo-map/`).
-- Extract non-component helpers (pure functions, formatters, fetchers) to `lib/<noun>-service.ts`, not inline in the component file.
+- Keep server-only logic in API routes or `server/` modules — no secrets on the client.
+- For server components, call backend APIs or Rust services via typed clients in `server/`.
+- Keep route handlers thin; delegate business logic to `lib/` or `server/` service modules.
 
-## Hooks
-
-- Each `use*` hook gets its own dedicated file named `use-<action>.ts` (e.g., `use-strategy-mutation.ts`, `use-bot-quotes-query.ts`, `use-bounds-controller.ts`).
-- Place hooks that belong to a component in the same directory as that component; place reusable standalone hooks (e.g., `use-table-sort.ts`) in `lib/`.
-- **Do not use a `handle*` prefix for functions.** Name functions after the action they perform: `killSwitch`, `setStrategy`, `pausePair`, `updateConfig`, `resetState`.
-- **Reserve the `on*` prefix exclusively for props** (e.g. `onClose`, `onChange`). Internal event listeners or callbacks should be named after what they do, not how they are triggered (e.g. `closeOnPressEscape`, `submitLogin`, not `onKeydown` or `onSubmit`).
-- **Never pass anonymous arrow functions as event listeners** (e.g. `onClick={() => doThing()}`). Always define a named function inside the component scope (or at module level if it needs no closure) and reference it: `onClick={doThing}`. This prevents memory reallocation on every render. For handlers that must close over a loop variable (e.g. inside `.map()`), define a named curried factory: `const selectItem = (id: string) => () => doThing(id)` and use `onClick={selectItem(item.id)}`. If a mapped element needs multiple named handlers, extract a dedicated child component so each handler can be defined once in that component scope.
-
-## Data Fetching
+## Data Fetching in Next.js
 
 - Use **TanStack Query** (`@tanstack/react-query` v5) for client-side fetching:
     - One `useQuery` or `useMutation` per file; name the file `use-<entity>-query.ts` or `use-<entity>-mutation.ts`.
@@ -55,21 +47,6 @@ Example:
     - On mutation success, call `queryClient.invalidateQueries({ queryKey })` for affected keys.
     - Use `onMutate` / `onError` for optimistic updates when immediate feedback is needed.
 - For server components, call backend APIs or Rust services via typed clients in `server/`.
-
-## State Management
-
-- Use **Zustand** + **immer** for shared app state:
-    - One store per concern under `stores/<noun>-store.ts`.
-    - Avoid a single global "god" store.
-    - Access Zustand state outside React hooks via `useMyStore.getState()`.
-- Use React Context only for cross-cutting concerns (theme, auth session), exposed via typed hooks that throw when used outside providers.
-
-## Forms & Validation
-
-- Use **React Hook Form v7** for form state.
-- Use **Zod** v4 for schema definitions.
-- Keep form value shapes flat and UI-centric; map to/from API DTOs via mapper functions.
-- Use `useWatch` for cross-field derived logic.
 
 ## Styling & Components
 
@@ -90,3 +67,7 @@ Example:
 - Use **React Testing Library** for component behavior; do not test implementation details.
 - For data-fetching hooks, mock the network boundary (i.e., `fetch`) not internal helpers.
 - Test files are excluded from the 300-line rule.
+
+## Related Skills
+
+- For shared React conventions (components, hooks, state, forms, icons), use `.github/skills/react-base.md`.
