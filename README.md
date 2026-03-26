@@ -13,7 +13,7 @@ Source-of-truth repository for shared GitHub Copilot skills distributed as a Git
 1. Add this repository as a dev dependency:
 
 ```bash
-pnpm add -D github:mkontsek/copilot-skills#main
+pnpm add -D github:mkontsek/copilot-skills#v1.0.2
 ```
 
 2. Wire a `postinstall` script in the consumer repo:
@@ -21,7 +21,7 @@ pnpm add -D github:mkontsek/copilot-skills#main
 ```json
 {
   "devDependencies": {
-    "@mvk/copilot-skills": "github:mkontsek/copilot-skills#main"
+    "@mvk/copilot-skills": "github:mkontsek/copilot-skills#v1.0.2"
   },
   "scripts": {
     "postinstall": "install-copilot-skills"
