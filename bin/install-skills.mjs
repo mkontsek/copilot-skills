@@ -7,8 +7,8 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const src = path.resolve(__dirname, "../.github/skills");
-const dst = path.resolve(process.cwd(), ".github/skills");
+const src = path.resolve(__dirname, "../.github");
+const dst = path.resolve(process.cwd(), ".github");
 const dryRun = process.argv.includes("--dry-run");
 
 async function copyDirectoryRecursive(sourceDir, destinationDir) {

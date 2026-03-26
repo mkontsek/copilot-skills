@@ -1,10 +1,10 @@
 {
-  "name": "@martin/copilot-skills",
+  "name": "@mvk/copilot-skills",
   "version": "0.1.0",
   "private": false,
   "type": "module",
   "bin": {
-    "install-copilot-skills": "bin/install-skills.mjs"
+    "install-skills": "bin/install-skills.mjs"
   },
   "scripts": {
     "lint": "echo \"no lint configured\"",
