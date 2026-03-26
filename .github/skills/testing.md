@@ -19,6 +19,7 @@ Applies to both TypeScript/Next.js and Rust crates in this monorepo.
     - `src/lib/__tests__/geo-service.test.ts` tests `src/lib/geo-service.ts`.
     - `src/components/dashboard/__tests__/use-strategy-mutation.test.ts` tests `src/components/dashboard/use-strategy-mutation.ts`.
 - File names match the source file: `<source-name>.test.ts` / `<source-name>.test.tsx`.
+- For refactors that extract nested ternary/branching logic into service helpers, add focused unit tests that cover each decision branch.
 - Mock:
     - Network boundaries: mock `fetch` or API client wrappers, not internal logic.
     - Global browser APIs (`localStorage`, `navigator.geolocation`) when needed.

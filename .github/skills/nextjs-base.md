@@ -32,6 +32,7 @@ Example:
 - Keep server-only logic in API routes or `server/` modules — no secrets on the client.
 - **Max 300 lines per file** for `.ts` and `.tsx` source files (enforced by `scripts/check-file-lines.sh`). When a file approaches the limit, split by extracting hooks, service helpers, or sub-components into their own files.
 - **Always use braces for `if` blocks**, even for single-line branches.
+- Do not use nested ternaries, use explicit branching, and extract non-trivial branch/decision logic into `lib/` or `server/` service functions.
 
 ## Server / Client Boundaries
 
@@ -67,6 +68,7 @@ Example:
 - Use **React Testing Library** for component behavior; do not test implementation details.
 - For data-fetching hooks, mock the network boundary (i.e., `fetch`) not internal helpers.
 - Test files are excluded from the 300-line rule.
+- When nested ternary logic is extracted into a service helper, add unit tests for the extracted service in the colocated `__tests__/` folder.
 
 ## Related Skills
 

@@ -23,6 +23,7 @@ Example:
 - One component per file. Use `export const Component: FC<Props> =` pattern.
 - All exports are **named exports** — never use `export default` or `export *`.
 - Extract non-component helpers (pure functions, formatters, fetchers) to service/utility modules, not inline in component files.
+- Do not use nested ternaries, use explicit branching (`if` / early-return) or a dedicated service function when logic is non-trivial.
 
 ## Hooks
 
@@ -68,6 +69,7 @@ Example:
 
 - Use **React Testing Library** for component behavior; do not test implementation details.
 - Mock network/browser boundaries, not internals.
+- When refactoring branching logic (e.g., nested ternaries) into a service/utility function, add focused unit tests for that extracted function.
 
 ## Workflow
 
