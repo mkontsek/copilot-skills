@@ -21,7 +21,7 @@ pnpm add -D github:martinkontsek/copilot-skills#main
 ```json
 {
   "devDependencies": {
-    "@martin/copilot-skills": "github:martinkontsek/copilot-skills#main"
+    "@mvk/copilot-skills": "github:martinkontsek/copilot-skills#main"
   },
   "scripts": {
     "postinstall": "install-copilot-skills"
