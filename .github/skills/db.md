@@ -12,30 +12,30 @@ This skill defines database conventions for Prisma and Postgres across this mono
     - `packages/db/src/` for Prisma client setup/export
 - Do not create duplicate Prisma schemas in app packages.
 
-## Canonical Workspace Scripts
+## Canonical DB Scripts (`packages/db`)
 
-Use these root-level script names for DB workflows:
+Keep DB scripts in `packages/db/package.json` (not at the repo root), and use script names without a `db:` prefix:
 
-- `db:generate`
-- `db:dev:migrate`
-- `db:prod:migrate`
-- `db:dev:up`
-- `db:dev:stop`
-- `db:dev:reset`
-- `db:dev:seed`
-- `db:prod:seed`
+- `generate`
+- `dev:migrate`
+- `prod:migrate`
+- `dev:up`
+- `dev:stop`
+- `dev:reset`
+- `dev:seed`
+- `prod:seed`
 
-These scripts should delegate to `@crispy/db` commands via `pnpm --filter @crispy/db ...`.
+Run them from the repo root with a package filter (for example: `pnpm --filter ./packages/db run dev:up`).
 
 ## Local Development DB (Docker)
 
-- Use Docker Compose for local PostgreSQL lifecycle.
+- Keep Docker Compose files for local PostgreSQL lifecycle in `packages/db` (alongside DB scripts).
 - Start local DB + apply dev schema with:
-    - `pnpm run db:dev:up`
+    - `pnpm --filter ./packages/db run dev:up`
 - Stop local DB container with:
-    - `pnpm run db:dev:stop`
+    - `pnpm --filter ./packages/db run dev:stop`
 - If port `55432` is occupied, override host port at runtime:
-    - `POSTGRES_HOST_PORT=55440 pnpm run db:dev:up`
+    - `POSTGRES_HOST_PORT=55440 pnpm --filter ./packages/db run dev:up`
 - Keep local Docker DB settings development-only; production should use managed or separately provisioned Postgres.
 
 ## Environment Conventions
@@ -54,7 +54,7 @@ These scripts should delegate to `@crispy/db` commands via `pnpm --filter @crisp
 
 ## Migration / Seeding Guidance
 
-- Use `db:dev:migrate` for local development schema iteration.
-- Use `db:prod:migrate` for production deploy migrations.
-- Seed through `db:dev:seed` and `db:prod:seed`; keep seeds idempotent where possible.
+- Use `dev:migrate` for local development schema iteration.
+- Use `prod:migrate` for production deploy migrations.
+- Seed through `dev:seed` and `prod:seed`; keep seeds idempotent where possible.
 - When introducing seed data, prefer realistic defaults that match shared domain constants (e.g., supported pairs/exchanges).

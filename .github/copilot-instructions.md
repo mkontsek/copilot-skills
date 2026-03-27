@@ -84,15 +84,15 @@ Authoritative details: `.github/skills/rust-base.md`, `rust-backend.md`, `rust-c
 Authoritative details: `.github/skills/db.md`
 
 - Single Prisma source of truth in `packages/db` (`schema.prisma`, config, client).
-- Use canonical root scripts:
-  - `db:generate`
-  - `db:dev:migrate`
-  - `db:prod:migrate`
-  - `db:dev:up`
-  - `db:dev:stop`
-  - `db:dev:reset`
-  - `db:dev:seed`
-  - `db:prod:seed`
+- Keep DB scripts and Docker Compose in `packages/db` (no `db:` script prefix):
+  - `generate`
+  - `dev:migrate`
+  - `prod:migrate`
+  - `dev:up`
+  - `dev:stop`
+  - `dev:reset`
+  - `dev:seed`
+  - `prod:seed`
 - Production credentials must come from environment; never commit secrets.
 
 ## Testing (Summary)
